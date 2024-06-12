@@ -1,5 +1,6 @@
 CREATE TABLE team (
     name varchar(50) PRIMARY KEY,
+    captain text NOT NULL
 );
 
 CREATE TABLE player (
