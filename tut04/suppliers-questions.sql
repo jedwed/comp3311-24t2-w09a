@@ -148,7 +148,10 @@ FROM
     yosemiteSupplies
 WHERE 
     cost = (
-        select max(cost) from YosemiteSupplies
+        SELECT 
+            MAX(cost) 
+        FROM 
+            yosemiteSupplies
     );
 
 -- NOTE: the method of sorting then limiting below is not recommended
