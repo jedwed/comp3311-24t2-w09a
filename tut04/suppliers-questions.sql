@@ -125,14 +125,34 @@ WHERE NOT EXISTS (
  * Find the pids of the most expensive part(s) supplied by suppliers named "Yosemite Sham".
  */
 
- -- Finding pids supplied by "Yosemite Sham"
- -- A view is a virtual table that we can use to create
- -- useful abstractions which make code easier to
- -- read and write
-CREATE VIEW yosemiteSupplies (pids, cost) AS
-    SELECT 
-        c.pid,
-        c.cost
+SELECT
+    pid
+FROM
+    catalog AS c
+JOIN
+    suppliers AS s
+    ON c.sid = s.sid
+WHERE
+    s.sname = 'Yosemite Sham'
+    AND cost = (
+        -- Subquery for highest cost
+        SELECT 
+            MAX(cost)
+        FROM
+            catalog AS c
+        JOIN
+            suppliers AS s
+            ON c.sid = s.sid
+        WHERE
+            s.sname = 'Yosemite Sham'
+    );
+
+-- NOTE: Using a auxiliary view to create an abstraction makes the code easier to read and write
+
+
+CREATE VIEW yosemiteSupplies (pid, cost) AS
+    SELECT
+        c.pid, c.cost
     FROM
         catalog AS c
     JOIN
@@ -141,22 +161,16 @@ CREATE VIEW yosemiteSupplies (pids, cost) AS
     WHERE
         s.sname = 'Yosemite Sham';
 
- -- find the most expensive part out of the above
-SELECT 
-    pids
-FROM 
+
+SELECT
+    pid
+FROM
     yosemiteSupplies
-WHERE 
+WHERE
     cost = (
-        select max(cost) from YosemiteSupplies
+        SELECT 
+            MAX(cost)
+        FROM
+            yosemiteSupplies
     );
-
--- NOTE: the method of sorting then limiting below is not recommended
--- ORDER BY cost DESC
--- LIMIT 1
--- If there are multiple parts that are tied for the most expensive,
--- the query will only return one of them.
-
-
-
 
