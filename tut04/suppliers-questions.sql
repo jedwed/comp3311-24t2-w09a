@@ -169,8 +169,8 @@ FROM
 WHERE
     cost = (
         SELECT 
-            MAX(cost)
-        FROM
+            MAX(cost) 
+        FROM 
             yosemiteSupplies
     );
 
