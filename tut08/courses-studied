@@ -1,0 +1,41 @@
+#!/usr/bin/python3
+import sys
+import psycopg2
+
+conn = None
+
+if len(sys.argv) < 3:
+    print("Usage: ./courses-studied studentID term")
+    exit(1)
+studentId = sys.argv[1]
+term = sys.argv[2]
+
+COURSES_STUDIED_QUERY = """
+SELECT
+    subject_code,
+    subject_name
+FROM 
+    student_courses
+WHERE
+    student_id = %s
+    AND course_term = %s
+"""
+
+
+try:
+    conn = psycopg2.connect(f"dbname=uni")
+    cur = conn.cursor()
+
+    cur.execute(COURSES_STUDIED_QUERY, (studentId, term))
+    courses = cur.fetchall()
+    if len(courses) == 0:
+        print("No courses found")
+        exit(0)
+
+    for course_code, course_name in courses:
+        print(f"{course_code} {course_name}")
+except psycopg2.Error as err:
+    print("database error: ", err)
+finally:
+    if conn is not None:
+        conn.close()

@@ -1,0 +1,46 @@
+#!/usr/bin/python3
+import sys
+import psycopg2
+
+conn = None
+if len(sys.argv) < 2:
+    print("Usage: ./nsubjects subject")
+    exit(1)
+
+school_name = sys.argv[1]
+# TODO: query for the number of courses that a org/school offers
+COURSE_COUNT_QUERY = """
+SELECT
+    o.longname,
+    COUNT(*)
+FROM
+    subjects AS s
+JOIN
+    orgunits AS o
+    ON s.offeredby = o.id
+WHERE
+    o.longname ~* %s
+GROUP BY
+    o.longname
+"""
+try:
+    conn = psycopg2.connect(f"dbname=uni")
+    cur = conn.cursor()
+
+    cur.execute(COURSE_COUNT_QUERY, (school_name,))
+
+    res = cur.fetchall()
+    if len(res) == 0:
+        print("No schools matched")
+    elif len(res) == 1:
+        org_name, count = res[0]
+        print(f"{org_name} teaches {count} subjects")
+    elif len(res) > 1:
+        print("Multiple subjects match")
+        for org_name, count in res:
+            print(org_name)
+except psycopg2.Error as err:
+    print("database error: ", err)
+finally:
+    if conn is not None:
+        conn.close()
