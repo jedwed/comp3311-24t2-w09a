@@ -1,0 +1,43 @@
+Consider (yet another) banking application that contains information about 
+accounts, branches and customers.
+Each account is held at a specific branch,
+but a customer may hold more than one account 
+and an account may have more than one associated customer.
+
+Consider an unnormalised relation containing all of the attributes that are relevant to this application:
+
+- acct# - unique account indentifier
+- branch# - unique branch identifier
+- tfn - unique customer identifier (tax file number)
+- kind - type of account (savings, cheque, ...)
+- balance - amount of money in account
+- city - city where branch is located
+- name - customer's name
+
+i.e. consider the relation R(acct#, branch#, tfn, kind, balance, city, name)
+
+Based on the above description:
+
+a. 
+Devise a suitable set of functional dependencies among these attributes.
+
+- tfn -> name
+- acct# -> branch#, kind, balance
+- branch# -> city
+
+Candidate key
+
+(tfn, acct#) = {tfn, acct#, name, branch#, kind, balance, city}
+
+
+
+b.
+Using these functional dependencies, decompose R into a set of 3NF relations.
+
+1. Minimal cover (set of fds in part a. is already the minimal cover)
+2. Create tables
+People(tfn, name)
+Accounts(acct#, branch#, kind, balance)
+Branches(branch#, city)
+3. If no table contains the candidate key, create a new table
+Owns(tfn, acct#) 

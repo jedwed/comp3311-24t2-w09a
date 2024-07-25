@@ -1,0 +1,68 @@
+## Question 4
+
+Consider a relation R(A,B,C,D).
+For each of the following sets of functional dependencies,
+assuming that those are the only dependencies that hold for R, do the following:
+
+(! Tip for finding candidate keys: if an attribute doesn't appear in the RHS: it HAS to be in the candidate key)
+
+a. List all of the candidate keys for R.
+b. Show whether R is in Boyce-Codd normal form (BCNF)?
+c. Show whether R is in third normal form (3NF)?
+
+i. {C → D, C → A, B → C}
+a. Find the candidate keys
+- B+ = {B, C, D, A}
+b. is it in BCNF
+
+Consider each functional dependency
+C -> D
+1. Not trivial
+2. Not a superkey
+3. D is not a subset of any candidate key (B) 
+
+It's not in BCNF nor 3NF
+
+ii. B → C, D → A
+
+- BD+ = {B, D, C, A} -> candidate key
+
+b. Is it in 3NF, BCNF
+
+B -> C
+1. Not trivial
+2. Not a superkey
+3. C is not a subset of any candidate key (BD)
+It's not in BCNF nor 3NF
+
+iii. ABC → D, D → A
+
+- ABC+ = {A, B, C, D} -> candidate key
+- BCD+ = {B, C, D, A} -> candidate key
+
+- A+ = {A}
+
+Loop through all fds
+- ABC -> D
+1. Not trivial
+2. ABC is a superkey
+
+Satisfies condition for BCNF, 3NF
+
+- D -> A
+1. Not trivial
+2. D is not a superkey
+3. A is a subset of a candidate key (ABC)
+
+Satisfies condition for 3NF but NOT BCNF
+
+The relation is in 3NF but not BCNF
+
+
+
+
+
+
+
+
+

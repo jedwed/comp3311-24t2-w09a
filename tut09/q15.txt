@@ -1,0 +1,26 @@
+Consider the schema R and set of fds F
+
+R  =  ABCDEFGH
+F  =  { ABH → C,  A → DE,  BGH → F,  F → ADH,  BH → GE }
+
+Produce a BCNF decomposition of R.
+
+Candidate key 
+- BH+ = {B, H, G, E, F, A, D, C}
+
+1. Consider if table R is in BCNF
+ABH -> C
+1. Not trivial
+2. ABH is a superkey
+
+A -> DE
+1. Not trivial
+2. Not a superkey
+
+Decompose R into
+R1 = ADE
+R2 = ABCFGH
+
+2. Consider if ADE is in BCNF
+
+3. Consider if ABCFGH is in BCNF
