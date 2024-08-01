@@ -1,0 +1,11 @@
+T1:      R(A) W(Z)                C
+T2:                R(B) W(Y)        C
+T3: W(A)                     W(B)     C
+
+Draw the precedence graph
+
+T3 -> T1 (T3 W(A) before T1 R(A))
+T2 -> T3 (T2 R(B) before T3 W(B))
+
+T2 -> T3 -> T1
+No cycle, hence schedule is conflict serializable

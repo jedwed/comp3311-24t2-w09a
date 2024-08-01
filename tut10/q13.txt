@@ -1,0 +1,80 @@
+For each of the following schedules, 
+state whether it is conflict-serializable and/or view-serializable. 
+
+a. T1:R(X) T2:R(X) T1:W(X) T2:W(X)
+
+T1 R(X)      W(X)
+T2      R(X)      W(X)
+
+Check conflict-serializability
+T2 <-> T1: cycle
+schedule is not conflict serializable
+
+Check view-serializability
+
+Serial schedule T2 -> T1
+T1           R(X) W(X)
+T2 R(X) W(X)
+
+Schedule is not view equivalent to serial schedule T2 -> T1
+because in the serial schedule, T1 reads to X after T2 writes to X
+
+
+Original schedule
+T1 R(X)      W(X)
+T2      R(X)      W(X)
+Serial schedule T1 -> T2 
+T1 R(X) W(X) 
+T2           R(X) W(X)
+
+Schedule is not view equivalent to serial schedule T1 -> T2
+
+Final answer: the scedule is neither conflict serializable nor view serializable
+
+
+part b.
+T1:W(X) T2:R(Y) T1:R(Y) T2:R(X)
+
+T1 W(X)      R(Y)
+T2      R(Y)      R(X)
+
+Draw precedence graph
+
+T1 -> T2 (T1 W(X) before T2 R(X))
+No cycles: schedule is conflict serializable and view serializable
+
+
+part e.
+T1:R(X) T2:W(X) T1:W(X) T3:W(X)
+
+T1 R(X)      W(X)
+T2      W(X)
+T3                W(X)
+
+Draw precedence graph
+
+T2 -> T1 (T2 W(X) before T1 W(X))
+T1 -> T3 (T1 W(X) before T3 W(X))
+T2 -> T3 (T2 W(X) before T3 W(X))
+T1 -> T2 (T1 R(X) before T2 W(X))
+T1 -> T3 (T1 R(X) before T3 W(X))
+
+T2 -> T1 -> T3
+
+T2 -> T1 and T1 -> T2, hence there's a cycle in the precedence graph
+Therefore, schedule is not conflict serializable.
+
+Check view serializability
+
+T1 R(X)      W(X)
+T2      W(X)
+T3                W(X)
+
+Serial schedule T1 -> T2 -> T3
+T1 R(X) W(X)
+T2           W(X)
+T3                W(X)
+
+T1 reads the same value of X in both schedules
+T3 writes to X last in both schedules
+Schedule is view serializable
